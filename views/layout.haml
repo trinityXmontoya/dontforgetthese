@@ -12,13 +12,13 @@
   #main-body
     %h2 Here are your to-dos:
     #all-todo-items
-      %ul
-        - @items.each do |item|
-          #each-item
-            %li.item= item
-    #new-todo-button
-      Make a new item
     #new-todo-item-options
-      %form{ method: 'post', action: '', id: 'new_todo_item'}
-        %input{ type: 'text', name: 'content'}
-        %input{ type: 'submit', value: "Add it!"}
+      %input{ type: 'text', id: 'new-todo-item-description'}
+      %button{ id: 'add-todo'} Add it
+
+
+%script{ type: :'text/template', id: :'todo-template'}
+  %li
+    /%h3= this.model.get('description')
+    /%input{type: 'checkbox', checked: "#{this.model.get('status')}"}
+    %span X

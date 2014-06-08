@@ -1,30 +1,47 @@
 var ItemView = Backbone.View.extend({
   tagName: 'div',
   className: 'each-item',
+
   events: {
+    'click span' : 'deleteItem',
     'click input:checkbox' : 'toggleComplete'
   },
+
   initialize: function(){
-
+    this.template = _.template($('#todo-template').html());
+    this.listenTo(this.model, 'remove', this.remove);
+    this.listenTo(this.model, 'change', this.render);
+    this.render();
   },
+
   render: function(){
-
+    var description = this.model.get('description');
+    var complete = this.model.get('done');
+    var compiledView = this.template(this.model.toJSON());
+    if (complete) {
+      this.$el.addClass('completed');
+    }
+    else {
+      this.$el.removeClass('completed').addClass('incomplete')
+    }
+    this.$el.html(compiledView);
   },
+
   remove: function(){
-
+    this.$el.slideUp(500, this.remove.bind(this));
   },
-  delete: function(){
+
+  deleteItem: function(){
     this.model.destroy();
   },
+
   toggleComplete: function(){
-    var done = this.$('input:checkbox').is(':checked');
-    if (done){
+    var complete = this.$('input:checkbox').is(':checked');
+    if (complete){
       this.model.set({'done', true});
-      this.$el.toggleClass('complete');
     }
     else {
       this.model.set({'done',false});
-      this.$el.toggleClass('incomplete');
     }
     this.model.save();
   }
