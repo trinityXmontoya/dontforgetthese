@@ -1,0 +1,13 @@
+#container
+  %header
+    #logo
+    %h1 Welcome to
+    %a{ href: '/', title: 'DontForgetThese!'} DontForgetThese!
+  #main-body
+    %h2 Here are your to-dos:
+    - items = ["i","hate","you"]
+    #all-items
+      %ul
+        - items.each do |item|
+          #each-item
+            %li.item= item
