@@ -1,0 +1,15 @@
+.display-me {
+  display: block !important;
+}
+
+.hide-me {
+  display: none;
+}
+
+.complete {
+  background-color: green
+}
+
+.incomplete {
+  background-color: red
+}
