@@ -26,9 +26,9 @@ def to_bson_id(id) BSON::ObjectId.from_string(id) end
 
   put '/todo/:id' do
     todo = todos.find('id' => tobson_id(params[:id]))
-    todos.update({ _id: todo_id}, '$set': {
-        description: params[:description]
-      });
+    # todos.update({ _id: todo_id }, { $set: {
+    #     description: params[:description] }
+    #   });
   end
 
   delete '/todo/:id' do

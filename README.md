@@ -1,3 +1,3 @@
 #Dont Forget These
 
-Sinatra, Backbone, and HAML powered todo-list
+Sinatra, Backbone, MongoDB, and HAML powered todo-list

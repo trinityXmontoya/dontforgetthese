@@ -38,10 +38,10 @@ var TodoView = Backbone.View.extend({
   toggleComplete: function(){
     var complete = this.$('input:checkbox').is(':checked');
     if (complete){
-      this.model.set({'done', true});
+      this.model.set('done', true);
     }
     else {
-      this.model.set({'done',false});
+      this.model.set('done',false);
     }
     this.model.save();
   }
