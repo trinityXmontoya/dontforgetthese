@@ -1,5 +1,5 @@
 var listView = Backbone.View.extend({
-  el: 'div#all-todo-items',
+  el: 'div#all-todos',
   initialize: function(){
     this.addAllTodos();
     this.listenTo(this.collection, 'add', this.addSingleTodo);
@@ -10,7 +10,8 @@ var listView = Backbone.View.extend({
     this.collection.each(this.addSingleTodo, this);
   },
   addSingleTodo: function(todoModel){
-    var todoView = new ItemView({model: todoModel});
+    var todoView = new TodoView({model: todoModel});
     $(todoView.el).hide().appendTo(this.$el).slideDown(1000);
   }
 });
+

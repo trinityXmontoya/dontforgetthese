@@ -1,9 +1,9 @@
-var ItemView = Backbone.View.extend({
-  tagName: 'div',
-  className: 'each-item',
+var TodoView = Backbone.View.extend({
+  tagName: 'li',
+  className: 'each-todo',
 
   events: {
-    'click span' : 'deleteItem',
+    'click span' : 'deleteTodo',
     'click input:checkbox' : 'toggleComplete'
   },
 
@@ -31,7 +31,7 @@ var ItemView = Backbone.View.extend({
     this.$el.slideUp(500, this.remove.bind(this));
   },
 
-  deleteItem: function(){
+  deleteTodo: function(){
     this.model.destroy();
   },
 

@@ -1,4 +1,4 @@
 var TodoCollection = Backbone.Collection.extend({
-  url: '',
-  model: TodoItem
+  url: '/api/todos',
+  model: Todo
 });

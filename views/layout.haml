@@ -2,7 +2,7 @@
 %script{ src: :'http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js'}
 %script{ src: :'http://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.0.0/backbone-min.js'}
 %script{ src: :'js/app.js'}
-%link{ rel: :'stylesheet', type: :'text/css', href: :'/css/style.css' }
+%link{ rel: :'stylesheet', href: :'css/style.css' }
 
 #container
   %header
@@ -11,9 +11,9 @@
     %a{ href: '/', title: 'DontForgetThese!'} DontForgetThese!
   #main-body
     %h2 Here are your to-dos:
-    #all-todo-items
-    #new-todo-item-options
-      %input{ type: 'text', id: 'new-todo-item-description'}
+    #all-todos
+    #new-todo
+      %input{ type: 'text', id: 'new-todo-description'}
       %button{ id: 'add-todo'} Add it
 
 
