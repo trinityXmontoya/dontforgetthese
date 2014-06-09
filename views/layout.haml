@@ -25,8 +25,23 @@
       %button{ id: 'add-todo'} Add it
 
 
-%script{ type: :'text/template', id: :'todo-template'}
+%script#todo-template{ type: :'text/template'}
   %div
-    %h3= this.model.get('description')
-    %input{type: 'checkbox', checked: "#{this.model.get('status')}"}
-    %span X
+    %h3.todo-text
+    / %input{type: 'checkbox', checked:  |
+    / = done ? 'checked' : "" }          |
+    <input class='check' type='checkbox' <%= done ? 'checked = "checked"' : '' %>
+    %span#todo-destroy X
+
+
+/ %script#item-template{"type" => "text/template"}
+/   <div class="todo <%= done ? 'done' : '' %>">
+/   %div.display
+/     <input class="check" type="checkbox" <%= done ? 'checked="checked"' : '' %> />
+/     %div.todo-text
+/     %span#todo-destroy
+/   %div.edit
+/     %input.todo-input{"type" => "text", "value" =>""}/
+/   </div>
+
+

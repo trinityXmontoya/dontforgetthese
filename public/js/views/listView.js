@@ -4,6 +4,7 @@ var ListView = Backbone.View.extend({
     this.addAllTodos();
     this.listenTo(this.collection, 'add', this.addSingleTodo);
     this.listenTo(this.collection, 'reset', this.addAllTodos);
+    this.collection.fetch();
   },
   addAllTodos: function(){
     this.$el.empty();

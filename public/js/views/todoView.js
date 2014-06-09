@@ -3,7 +3,7 @@ var TodoView = Backbone.View.extend({
   className: 'each-todo',
 
   events: {
-    'click span' : 'deleteTodo',
+    'click span#todo-destroy' : 'deleteTodo',
     'click input:checkbox' : 'toggleComplete'
   },
 
