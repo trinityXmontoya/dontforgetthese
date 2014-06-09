@@ -10,7 +10,6 @@ DB = Mongo::Connection.new.db("todo_app", :pool_size => 5,
 todos = DB.collection('todos')
 
   get '/' do
-    # LOGIN
     "Welcome to dontforgetthese"
     haml :layout
   end
@@ -46,4 +45,3 @@ todos = DB.collection('todos')
   def from_bson_id(obj)
     obj.merge({'_id' => obj['_id'].to_s})
   end
-

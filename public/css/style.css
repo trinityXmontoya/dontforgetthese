@@ -1,3 +1,5 @@
+/*GLOBAL*/
+
 .display-me {
   display: block !important;
 }
@@ -13,3 +15,32 @@
 .incomplete {
   background-color: red
 }
+
+body {
+  font-family: Helvetica;
+  margin: 0;
+  background-image: url('../images/congruent_pentagon.png');
+}
+
+a {
+  text-decoration: none
+}
+
+/*CONTAINER*/
+#container {
+  margin: 0;
+}
+
+header {
+  width: 100%;
+  background-color: black;
+}
+
+header a {
+  color: #ebfdd4;
+  font-size: 32px;
+}
+#all-todos {
+  margin: 0 auto;
+}
+
