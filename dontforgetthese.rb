@@ -18,24 +18,26 @@ todos = DB.collection('todos')
     todos.find.to_a.map{|t| from_bson_id(t)}.to_json
   end
 
-  post '/api/todo' do
-    todo_description = params[:description]
+  post '/api/todos' do
+    # could do just JSON.parse(request.body.read) as the new_todo object but felt this was clearer for now as I'm learning!
+    description = JSON.parse(request.body.read)['description']
     new_todo = {
-      description: todo_description,
+      description: description,
       done: false
     }
     todos.insert(new_todo)
   end
 
-  put '/api/todo/:id' do
-    todo = todos.find('id' => tobson_id(params[:id]))
-    # todos.update({ _id: todo_id }, { $set: {
-    #     description: params[:description] }
-    #   });
+  put '/api/todos/:id' do
+    json = JSON.parse(request.body.read)
+    description = json['description']
+    done = json['done']
+    todos.update({ :_id => to_bson_id(params[:id]) }, { '$set' => {description: description, done: done} }
+    );
   end
 
-  delete '/api/todo/:id' do
-    todos.remove('_id' => tobson_id(params[:id]))
+  delete '/api/todos/:id' do
+    todos.remove('_id' => to_bson_id(params[:id]))
   end
 
   def to_bson_id(id)

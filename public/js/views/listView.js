@@ -4,7 +4,7 @@ var ListView = Backbone.View.extend({
     this.addAllTodos();
     this.listenTo(this.collection, 'add', this.addSingleTodo);
     this.listenTo(this.collection, 'reset', this.addAllTodos);
-    this.collection.fetch();
+    this.render();
   },
   addAllTodos: function(){
     this.$el.empty();
@@ -12,7 +12,13 @@ var ListView = Backbone.View.extend({
   },
   addSingleTodo: function(todoModel){
     var todoView = new TodoView({model: todoModel});
-    $(todoView.el).hide().appendTo(this.$el).slideDown(500);
+    if (todoModel.get('done') == true){
+      $(todoView.el).hide().appendTo($('#completed-todos')).slideDown(500);
+    }
+    else {
+      $(todoView.el).hide().appendTo($('#incomplete-todos')).slideDown(500);
+    }
   }
 });
+
 

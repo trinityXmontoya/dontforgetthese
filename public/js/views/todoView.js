@@ -1,10 +1,10 @@
 var TodoView = Backbone.View.extend({
-  tagName: 'li',
   className: 'each-todo',
 
   events: {
-    'click span#todo-destroy' : 'deleteTodo',
-    'click input:checkbox' : 'toggleComplete'
+    'click span.todo-destroy' : 'deleteTodo',
+    'click span.todo-edit' : 'editTodo',
+    'click span.todo-check' : 'toggleComplete'
   },
 
   initialize: function(){
@@ -19,12 +19,16 @@ var TodoView = Backbone.View.extend({
     var complete = this.model.get('done');
     var compiledView = this.template(this.model.toJSON());
     if (complete) {
-      this.$el.addClass('completed');
+      this.$el.addClass('completed')
     }
     else {
       this.$el.removeClass('completed').addClass('incomplete')
     }
     this.$el.html(compiledView);
+  },
+
+  editTodo: function(){
+    console.log('hi')
   },
 
   remove: function(){
