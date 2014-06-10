@@ -1,3 +1,3 @@
-require './dontforgeto.rb'
+require './dontforgetto.rb'
 run Sinatra::Application
 
