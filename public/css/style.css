@@ -22,11 +22,13 @@ a {
 header {
   width: 100%;
   background-color: black;
+  padding: 10px;
 }
 
 header a {
-  color: #ebfdd4;
+  color: #808983;
   font-size: 32px;
+  padding: 6px;
 }
 
 #container {
@@ -34,6 +36,17 @@ header a {
   width: 700px;
 }
 
+/*KEYWORDS*/
+#keywords {
+  float: left;
+  width: 200px;
+  padding: 10px;
+}
+
+#keywords h4 {
+  background-color: white;
+  padding: 5px;
+}
 /*TODO LIST*/
 #all-todos {
   margin: 0 auto;

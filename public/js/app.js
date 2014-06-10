@@ -1,6 +1,7 @@
 $(document).ready(function(){
   console.log("js loaded baby!");
   loadBackboneVars();
+  loadKeyword();
 });
 
 function loadBackboneVars(){
@@ -9,3 +10,9 @@ function loadBackboneVars(){
   var input = new InputView({collection: collection});
   collection.fetch({reset: true})
 };
+
+function loadKeyword(){
+  $('#keywords h4').on('click', function(){
+    $('#keyword_list').toggleClass('display-me')
+  })
+}

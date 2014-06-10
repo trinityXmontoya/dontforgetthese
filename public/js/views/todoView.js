@@ -4,7 +4,7 @@ var TodoView = Backbone.View.extend({
   events: {
     'click span.todo-destroy' : 'deleteTodo',
     'click span.todo-edit' : 'editTodo',
-    'click span.todo-check' : 'toggleComplete'
+    'click i.todo-check' : 'markComplete'
   },
 
   initialize: function(){
@@ -15,7 +15,7 @@ var TodoView = Backbone.View.extend({
   },
 
   render: function(){
-    var description = this.model.get('description');
+    var description = this.model.get('description').html_safe;
     var complete = this.model.get('done');
     var compiledView = this.template(this.model.toJSON());
     if (complete) {
@@ -32,21 +32,14 @@ var TodoView = Backbone.View.extend({
   },
 
   remove: function(){
-    this.$el.slideUp(500, this.remove.bind(this));
+    this.$el.slideUp(300, this.remove.bind(this));
   },
 
   deleteTodo: function(){
     this.model.destroy();
   },
 
-  toggleComplete: function(){
-    var complete = this.$('input:checkbox').is(':checked');
-    if (complete){
-      this.model.set('done', true);
-    }
-    else {
-      this.model.set('done',false);
-    }
-    this.model.save();
+  markComplete: function(){
+    this.model.set('done', true).save();
   }
 });

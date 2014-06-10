@@ -13,8 +13,19 @@
 %link{ rel: :'stylesheet', href: :'css/style.css' }
 
 %header
-  %img{src: 'https://d30y9cdsu7xlg0.cloudfront.net/png/9866-42.png?Expires=1402431192&Signature=ZcFt54t1xAEoTPaukoBrvrEI3PqgVjx~lwhuo5YtToqEwC6sgXSANb4pnzhy5dD22Uh-Xp20CWhj3VPTFLv27NjQHvQiL~2tsXGhY4ApQOD4TFLiNkBR0dDQcvI~r8AK33NPNviRbT6JCG61QlgyftUadcY-sJLSL3FR3aLjdvE_&Key-Pair-Id=APKAI5ZVHAXN65CHVU2Q'}
-  %a{ href: '/', title: 'DontForgetThese!'} DontForgetThese
+  %a{ href: '/', title: 'DontForgetTo!'}
+    %i.fa.fa-ellipsis-h
+    DontForgetTo
+
+#keywords
+  %h4 Complete Keyword List
+  #keyword_list.hide-me
+    %p Use any of these words get the matching icon!
+    - keyword_list.each do |keyword|
+      = filter_for_icons(keyword)
+      =keyword
+      %br
+
 #container
   #new-todo
     %input{ type: 'text', id: 'new-todo-description', name: 'description', placeholder: "ex: Buy all the bacon"}
@@ -25,12 +36,9 @@
   %h1 DONE
   #completed-todos
 
-
-
-
 %script#todo-template{ type: :'text/template'}
   <%= description %>
-  %i.fa.fa-check.todo-check
+  <%= !done ? "<i class='fa fa-check todo-check'></i>" : '' %>
   %span.todo-destroy.todo-options
     %i.fa.fa-times
   / %span.todo-edit.todo-options
