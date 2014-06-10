@@ -1,9 +1,3 @@
-require 'rubygems'
-require 'sinatra'
-require 'sinatra/reloader'
-require 'haml'
-require 'mongo'
-require 'json'
 
 DB = Mongo::Connection.new.db("todo_app", :pool_size => 5,
   :timeout => 5)
