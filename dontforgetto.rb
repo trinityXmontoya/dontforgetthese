@@ -1,4 +1,7 @@
-
+mongo_uri = ENV['MONGOLAB_URI']
+db_name = mongo_uri[%r{/([^/\?]+)(\?|$)}, 1]
+client = MongoClient.from_uri(mongo_uri)
+DB = client.db(db_name)
 DB = Mongo::Connection.new.db("todo_app", :pool_size => 5,
   :timeout => 5)
 todos = DB.collection('todos')
