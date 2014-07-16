@@ -20,7 +20,8 @@ todos = DB.collection('todos')
 
   post '/api/todos' do
     # could do just JSON.parse(request.body.read) as the new_todo object but felt this was clearer for now as I'm learning!
-    description = filter_for_icons(JSON.parse(request.body.read)['description'])
+    # description = filter_for_icons(JSON.parse(request.body.read)['description'])
+    description = JSON.parse(request.body.read)['description']
     new_todo = {
       description: description,
       done: false
@@ -30,13 +31,19 @@ todos = DB.collection('todos')
 
   put '/api/todos/:id' do
     json = JSON.parse(request.body.read)
+    puts "JSON"
+    puts json
     description = json['description']
+    puts description
     done = json['done']
+    puts done
     todos.update({ :_id => to_bson_id(params[:id]) }, { '$set' => {description: description, done: done} }
     );
   end
 
   delete '/api/todos/:id' do
+    puts "HERE ARE PARAMS to bson"
+    puts to_bson_id(params[:id])
     todos.remove('_id' => to_bson_id(params[:id]))
   end
 

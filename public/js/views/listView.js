@@ -13,10 +13,14 @@ var ListView = Backbone.View.extend({
   addSingleTodo: function(todoModel){
     var todoView = new TodoView({model: todoModel});
     if (todoModel.get('done') == true){
-      $(todoView.el).hide().appendTo($('#completed-todos')).slideDown(500);
+      $(todoView.el).hide()
+                    .appendTo($('#completed-todos'))
+                    .slideDown(500);
     }
     else {
-      $(todoView.el).hide().appendTo($('#incomplete-todos')).slideDown(500);
+      $(todoView.el).hide()
+                    .appendTo($('#incomplete-todos'))
+                    .slideDown(500);
     }
   }
 });
