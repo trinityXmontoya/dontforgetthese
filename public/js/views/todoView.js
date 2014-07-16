@@ -14,8 +14,9 @@ var TodoView = Backbone.View.extend({
     this.render();
   },
 
+
   render: function(){
-    var description = this.model.get('description').html_safe;
+    var description = this.model.get('description');
     var complete = this.model.get('done');
     var compiledView = this.template(this.model.toJSON());
     if (complete) {
@@ -32,7 +33,7 @@ var TodoView = Backbone.View.extend({
   },
 
   remove: function(){
-    this.$el.slideUp(300, this.remove.bind(this));
+    this.$el.slideUp(300);
   },
 
   deleteTodo: function(){
@@ -40,6 +41,11 @@ var TodoView = Backbone.View.extend({
   },
 
   markComplete: function(){
-    this.model.set('done', true).save();
+    this.model.toggleComplete();
+    this.$el.hide()
+            .removeClass('incomplete')
+            .addClass('completed')
+            .appendTo($('#completed-todos'))
+            .slideDown(500);
   }
 });
