@@ -1,7 +1,6 @@
 # GEMS
-source "https://rubygems.org"
+source "http://rubygems.org"
 ruby "2.1.0"
-# source 'https://rubygems.org'
 # gem 'rubygems'
 # gem 'sinatra'
 # gem 'sinatra/reloader'
@@ -10,3 +9,5 @@ ruby "2.1.0"
 # gem 'json'
 # gem 'pry'
 # gem 'rack'
+# source 'https://rubygems.org'
+
