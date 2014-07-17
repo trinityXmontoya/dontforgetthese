@@ -30,14 +30,22 @@ var TodoView = Backbone.View.extend({
   },
 
   editTodo: function(){
-    // span = this.$el.find($('.edit-todo'));
-    // console.log(span)
-    // this.$el.attr
-    $('.description').attr('contentEditable',true)
-    // var description = ;
-    // var complete = ;
-    // this.model.set({description: description, done: complete})
-  },
+    var that = this;
+    span = this.$el.find($('.description'));
+    span.attr('contentEditable',true);
+    span.on('focusout', function(){
+      span.attr('contentEditable',false)
+    });
+    span.on('keydown', function(e){
+      var code = e.keyCode || e.which;
+      var description = span.text();
+      if(code == 13 && description){
+        that.model.set({description: description})
+                  .save();
+        return false
+      }
+    });
+    },
 
   remove: function(){
     this.$el.slideUp(300);
