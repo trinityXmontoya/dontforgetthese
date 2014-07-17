@@ -18,7 +18,6 @@
     DontForgetTo
 
 #keywords
-  = session[:list_id]
   %h4 Complete Keyword List
   #keyword_list.hide-me
     %p Use any of these words get the matching icon!
@@ -42,6 +41,6 @@
   <%= !done ? "<i class='fa fa-check todo-check'></i>" : '' %>
   %span.todo-destroy.todo-options
     %i.fa.fa-times
-  / %span.todo-edit.todo-options
-  /   %i.fa.fa-edit
+  %span.todo-edit.todo-options
+    %i.fa.fa-edit
 

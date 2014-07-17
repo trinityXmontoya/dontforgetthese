@@ -29,7 +29,7 @@ var TodoView = Backbone.View.extend({
   },
 
   editTodo: function(){
-    console.log('hi')
+
   },
 
   remove: function(){

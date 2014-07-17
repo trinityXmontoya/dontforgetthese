@@ -13,6 +13,7 @@ require 'pry'
 # MONGO SETUP
 DB = Mongo::Connection.new.db("todo_app", :pool_size => 5,
   :timeout => 5)
+LISTS = DB.collection('lists')
 TODOS = DB.collection('todos')
 
 # ROUTES
@@ -30,43 +31,55 @@ TODOS = DB.collection('todos')
   end
 
   get '/api/todos' do
-    list_id = session[:list_id].to_i
-    TODOS.find(_id: list_id)
+    LISTS.find(_id: session[:list_id])
           .to_a[0]["notes"]
-          .map{|n| n}
+          .map do |note_id|
+            from_bson_id(TODOS.find(_id: note_id).to_a[0])
+          end
           .to_json
   end
 
   post '/api/todos' do
-    list_id = session[:list_id].to_i
     new_todo = JSON.parse(request.body.read)
-    TODOS.update({ _id: list_id },
+    id = TODOS.insert(new_todo)
+    LISTS.update({ _id: session[:list_id] },
           {"$push"=>
-            {notes:
-              new_todo }}).to_json
+            {notes: id }}, upsert: true).to_json
   end
 
   put '/api/todos/:id' do
-    list_id = session[:list_id].to_i
     json = JSON.parse(request.body.read)
+    puts "JSON"
+    puts json
     description = json['description']
     done = json['done']
-    query =
-    TODOS.update({ :_id => list_id },
-          { '$set' => {description: description, done: done} }
+    TODOS.update({ :_id => session[:list_id] },
+          { '$set' =>
+            {description: description, done: done}
+          }
     );
   end
 
   delete '/api/todos/:id' do
-    list_id = session[:list_id].to_i
-    TODOS.update({_id: list_id},
-          {"$pull"=> {
-            notes:{
-              id: params[:id].to_i}}}).to_json
+    note_id = to_bson_id(params[:id])
+    LISTS.update({_id: session[:list_id]},
+      {"$pull"=>
+        { notes: note_id}
+    });
+    TODOS.remove({_id: note_id}).to_json
   end
 
 
 # ADDITIONAL METHODS
+
+def to_bson_id(id)
+   BSON::ObjectId.from_string(id)
+end
+
+def from_bson_id(obj)
+   obj.merge({'_id' => obj['_id'].to_s})
+end
+
 def generate_rand_id
   id = SecureRandom.urlsafe_base64(23)
 end

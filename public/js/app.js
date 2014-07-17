@@ -1,7 +1,7 @@
 $(document).ready(function(){
   console.log("js loaded baby!");
   loadBackboneVars();
-  loadKeyword();
+  loadKeywordList();
 });
 
 function loadBackboneVars(){
@@ -11,7 +11,7 @@ function loadBackboneVars(){
   collection.fetch({reset: true})
 };
 
-function loadKeyword(){
+function loadKeywordList(){
   $('#keywords h4').on('click', function(){
     $('#keyword_list').toggleClass('display-me')
   })
