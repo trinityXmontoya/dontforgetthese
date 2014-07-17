@@ -2,6 +2,7 @@ $(document).ready(function(){
   console.log("js loaded baby!");
   loadBackboneVars();
   loadKeywordList();
+  shareList();
 });
 
 function loadBackboneVars(){
@@ -16,3 +17,9 @@ function loadKeywordList(){
     $('#keyword_list').toggleClass('display-me')
   })
 };
+
+function shareList(){
+  $('.share-list').on('click', function(){
+    $('#share-options').toggleClass('display-me')
+  })
+}

@@ -70,6 +70,10 @@ TODOS = DB.collection('todos')
     TODOS.remove({_id: note_id}).to_json
   end
 
+  get '/*' do
+    redirect '/'
+  end
+
 
 # ADDITIONAL METHODS
 def to_bson_id(id)
@@ -82,6 +86,8 @@ end
 
 def generate_rand_id
   id = SecureRandom.urlsafe_base64(23)
+  list_ids = LISTS.find().to_a.map {|l| l["_id"]}
+  (list_ids.include? id) ? generate_rand_id : id
 end
 
 def keyword_list
