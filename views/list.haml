@@ -9,7 +9,7 @@
 %script{ src: :'../js/views/todoView.js'}
 %script{ src: :'../js/app.js'}
 :javascript
-  / Facebook JS
+-# Facebook JS
   (function(a, b, id) {
     var js, fjs = a.getElementsByTagName(s)[0];
     if (a.getElementById(id)) return;
@@ -17,7 +17,7 @@
     js.src = "//connect.facebook.net/es_LA/sdk.js#xfbml=1&appId=274400686074344&version=v2.0";
     fjs.parentNode.insertBefore(js, fjs);
   }(document, 'script', 'facebook-jssdk'));
-  / Twitter JS
+-# Twitter JS
   !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
 
 

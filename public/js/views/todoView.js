@@ -14,11 +14,12 @@ var TodoView = Backbone.View.extend({
     this.render();
   },
 
-
   render: function(){
-    var description = this.model.get('description');
+    var description = filterForIcons(this.model.get('description'));
     var complete = this.model.get('done');
-    var compiledView = this.template(this.model.toJSON());
+    var compiledView = this.template({
+                        description: description,
+                        done: complete});
     if (complete) {
       this.$el.addClass('completed')
     }
@@ -55,3 +56,19 @@ var TodoView = Backbone.View.extend({
             .slideDown(500);
   }
 });
+
+
+var filterForIcons = function(description){
+    var keywordList = [
+    "anchor","ambulance","android","apple","automobile","bell","bitcoin","bomb","book","briefcase","bug","cab","calendar","camera","car","child","cloud","coffee","cutlery","dollar","dropbox","drupal","envelope","facebook","fire-extinguisher","gear","gift","git","github","google","graduation-cap","heart","headphones","home","instagram","jsfiddle","laptop","list","microphone","minus","money","music","pencil","phone","pinterest","plane","plus","question","reddit","rocket","scissors","search","spoon","star","suitcase","taxi","ticket","tree","trophy","truck","twitter","unlock","wheelchair","youtube"
+    ]
+    var result = ""
+    function filter(word){
+      if (keywordList.indexOf(word)>-1){
+        word = word.replace(/(.*)/,"<i class='fa fa-" + word + "'></i>")
+      }
+      return result += " " + word
+    }
+    description.split(' ').forEach(filter)
+    return result
+  };
