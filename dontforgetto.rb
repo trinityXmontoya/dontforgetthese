@@ -1,12 +1,18 @@
+require 'rubygems'
+require 'sinatra'
+require 'sinatra/reloader'
+require 'haml'
+require 'mongo'
+require 'json'
+require 'pry'
+require 'rack'
+
+
 # SESSIONS
 use Rack::Session::Pool, :expire_after => 2592000
 
 # MONGO SETUP
-MONGO_URI = 'mongodb://nahsonchilll:college73@kahana.mongohq.com:10064/app27517578'
-# MONGO SETUP
-# DB = Mongo::Connection.new.db("todo_app", :pool_size => 5,
-#   :timeout => 5)
-uri = URI.parse(MONGO_URI)
+uri = URI.parse(ENV['MONGOHQ_URL'])
 db_name = uri.path.gsub(/^\//, '')
 DB = Mongo::Connection.new(uri.host,uri.port)
                       .db(db_name)
