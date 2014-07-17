@@ -1,63 +1,108 @@
-require 'mongo'
-include Mongo
+# SESSIONS
+use Rack::Session::Pool, :expire_after => 2592000
 
-mongo_uri = ENV['MONGOLAB_URI']
-db_name = mongo_uri[%r{/([^/\?]+)(\?|$)}, 1]
-client = MongoClient.from_uri(mongo_uri)
-DB = client.db(db_name)
+# GEMS
+require 'rubygems'
+require 'sinatra'
+require 'sinatra/reloader'
+require 'haml'
+require 'mongo'
+require 'json'
+require 'pry'
+
+# MONGO SETUP
 DB = Mongo::Connection.new.db("todo_app", :pool_size => 5,
   :timeout => 5)
-todos = DB.collection('todos')
+LISTS = DB.collection('lists')
+TODOS = DB.collection('todos')
 
+# ROUTES
   get '/' do
-    "Welcome to dontforgetto"
-    haml :layout
+    haml :welcome
+  end
+
+  get '/list' do
+    redirect "/list/#{generate_rand_id}"
+  end
+
+  get '/list/*:id' do
+    session[:list_id] = params[:id]
+    haml :list
   end
 
   get '/api/todos' do
-    todos.find.to_a.map{|t| from_bson_id(t)}.to_json
+    LISTS.find(_id: session[:list_id])
+          .to_a[0]["notes"]
+          .map do |note_id|
+            from_bson_id(TODOS.find(_id: note_id).to_a[0])
+          end
+          .to_json
   end
 
   post '/api/todos' do
     new_todo = JSON.parse(request.body.read)
-    todos.insert(new_todo)
+    id = TODOS.insert(new_todo)
+    LISTS.update({ _id: session[:list_id] },
+          {"$push"=>
+            {notes: id }}, upsert: true).to_json
   end
 
   put '/api/todos/:id' do
     json = JSON.parse(request.body.read)
+    puts "JSON"
+    puts json
     description = json['description']
     done = json['done']
-    todos.update({ :_id => to_bson_id(params[:id]) }, { '$set' => {description: description, done: done} }
-    );
+    note_id = to_bson_id(json['_id'])
+    TODOS.update({ :_id => note_id },
+          { '$set' =>
+            {description: description, done: done}
+          }
+    ).to_json;
   end
 
   delete '/api/todos/:id' do
-    puts "HERE ARE PARAMS to bson"
-    puts to_bson_id(params[:id])
-    todos.remove('_id' => to_bson_id(params[:id]))
+    note_id = to_bson_id(params[:id])
+    LISTS.update({_id: session[:list_id]},
+      {"$pull"=>
+        { notes: note_id}
+    });
+    TODOS.remove({_id: note_id}).to_json
   end
 
-  def to_bson_id(id)
-    BSON::ObjectId.from_string(id)
+  get '/*' do
+    redirect '/'
   end
 
-  def from_bson_id(obj)
-    obj.merge({'_id' => obj['_id'].to_s})
-  end
 
-  def keyword_list
-    [
-    "anchor","ambulance","android","apple","automobile","bell","bitcoin","bomb","book","briefcase","bug","cab","calendar","camera","car","child","cloud","coffee","cutlery","dollar","dropbox","drupal","envelope","facebook","fire-extinguisher","gear","gift","git","github","google","graduation-cap","heart","headphones","home","instagram","jsfiddle","laptop","list","microphone","minus","money","music","pencil","phone","pinterest","plane","plus","question","reddit","rocket","scissors","search","spoon","star","suitcase","taxi","ticket","tree","trophy","truck","twitter","unlock","wheelchair","youtube"
-    ]
-  end
+# ADDITIONAL METHODS
+def to_bson_id(id)
+   BSON::ObjectId.from_string(id)
+end
 
-  def filter_for_icons(string)
-    result = ""
-    string.split.each do |word|
-      if keyword_list.include? word
-        word.gsub! word,"<i class='fa fa-" + word + "'></i>"
-      end
-      result += " #{word}"
+def from_bson_id(obj)
+   obj.merge({'_id' => obj['_id'].to_s})
+end
+
+def generate_rand_id
+  id = SecureRandom.urlsafe_base64(23)
+  list_ids = LISTS.find().to_a.map {|l| l["_id"]}
+  (list_ids.include? id) ? generate_rand_id : id
+end
+
+def keyword_list
+  [
+  "anchor","ambulance","android","apple","automobile","bell","bitcoin","bomb","book","briefcase","bug","cab","calendar","camera","car","child","cloud","coffee","cutlery","dollar","dropbox","drupal","envelope","facebook","fire-extinguisher","gear","gift","git","github","google","graduation-cap","heart","headphones","home","instagram","jsfiddle","laptop","list","microphone","minus","money","music","pencil","phone","pinterest","plane","plus","question","reddit","rocket","scissors","search","spoon","star","suitcase","taxi","ticket","tree","trophy","truck","twitter","unlock","wheelchair","youtube"
+  ]
+end
+
+def filter_for_icons(string)
+  result = ""
+  string.split.each do |word|
+    if keyword_list.include? word
+      word.gsub! word,"<i class='fa fa-" + word + "'></i>"
     end
-    return result
+    result += " #{word}"
   end
+  return result
+end

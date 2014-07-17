@@ -6,9 +6,10 @@ var InputView = Backbone.View.extend({
 
   createTodo: function(e){
     var code = e.keyCode || e.which;
-    if(code == 13) {
+    var description = $('#new-todo-description').val()
+    if(code == 13 && description) {
       console.log("your pressed enter! i saw you!")
-      var todo_description = this.filterForIcons($('#new-todo-description').val());
+      var todo_description = this.filterForIcons(description);
       $('#new-todo-description').val('');
       var newTodo = {description: todo_description, done: false};
       this.collection.create(newTodo);

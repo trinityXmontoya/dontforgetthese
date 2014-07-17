@@ -1,7 +1,8 @@
 $(document).ready(function(){
   console.log("js loaded baby!");
   loadBackboneVars();
-  loadKeyword();
+  loadKeywordList();
+  shareList();
 });
 
 function loadBackboneVars(){
@@ -11,8 +12,14 @@ function loadBackboneVars(){
   collection.fetch({reset: true})
 };
 
-function loadKeyword(){
+function loadKeywordList(){
   $('#keywords h4').on('click', function(){
     $('#keyword_list').toggleClass('display-me')
+  })
+};
+
+function shareList(){
+  $('.share-list').on('click', function(){
+    $('#share-options').toggleClass('display-me')
   })
 }

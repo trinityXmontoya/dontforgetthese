@@ -1,0 +1,69 @@
+%script{ src: :'http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js'}
+%script{ src: :'http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js'}
+%script{ src: :'http://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.0.0/backbone-min.js'}
+
+%script{ src: :'../js/models/todoModel.js'}
+%script{ src: :'../js/collections/todoCollection.js'}
+%script{ src: :'../js/views/inputView.js'}
+%script{ src: :'../js/views/listView.js'}
+%script{ src: :'../js/views/todoView.js'}
+%script{ src: :'../js/app.js'}
+:javascript
+  / Facebook JS
+  (function(a, b, id) {
+    var js, fjs = a.getElementsByTagName(s)[0];
+    if (a.getElementById(id)) return;
+    js = d.createElement(b); js.id = id;
+    js.src = "//connect.facebook.net/es_LA/sdk.js#xfbml=1&appId=274400686074344&version=v2.0";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
+  / Twitter JS
+  !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
+
+
+%link{ rel: :'stylesheet', href: :'//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css'}
+%link{ rel: :'stylesheet', href: :'../css/style.css' }
+%div#fb-root
+%header
+  %a{ href: '/', title: 'DontForgetTo!'}
+    %i.fa.fa-ellipsis-h
+    DontForgetTo
+    - if params[:id] == 'demo'
+      %a{ href: '/list', class: 'make-your-own'} Make your own!
+    - else
+      %a{class: 'share-list'} Share this list!
+
+#keywords
+  %h4 Complete Keyword List
+  #keyword_list.hide-me
+    %p Use any of these words get the matching icon!
+    - keyword_list.each do |keyword|
+      = filter_for_icons(keyword)
+      =keyword
+      %br
+
+#container
+  #share-options.hide-me
+    %div.fb-share-button{"data-href" =>"http://localhost:3000/list/"}
+    %a{ href:"https://twitter.com/share", class: "twitter-share-button", "data-via"=> "TMontoyaTheory"}Tweet
+  - if params[:id] == 'demo'
+    %h4.list-title Demo App
+  - else
+    %h4.list-title Not Demo App
+  #new-todo
+    %input{ type: 'text', id: 'new-todo-description', name: 'description', placeholder: "ex: Buy all the bacon"}
+    %i.fa.fa-plus.todo-plus
+  #all-todos
+  %h1 TO-DO
+  #incomplete-todos
+  %h1 DONE
+  #completed-todos
+
+%script#todo-template{ type: :'text/template'}
+  %span.description <%= description %>
+  <%= !done ? "<i class='fa fa-check todo-check'></i>" : '' %>
+  %span.todo-destroy.todo-options
+    %i.fa.fa-times
+  %span.todo-edit.todo-options
+    %i.fa.fa-edit
+

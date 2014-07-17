@@ -31,6 +31,14 @@ header a {
   padding: 6px;
 }
 
+.make-your-own, .share-list {
+  background-color: white;
+  font-size: 15px;
+  float:right;
+  padding: 10px;
+  border-radius: 100
+}
+
 #container {
   margin: 30px auto;
   width: 700px;
@@ -48,6 +56,10 @@ header a {
   padding: 5px;
 }
 /*TODO LIST*/
+.list-title {
+  margin: 0 auto;
+  font-style: italic;
+}
 #all-todos {
   margin: 0 auto;
 }
