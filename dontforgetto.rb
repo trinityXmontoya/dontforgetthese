@@ -1,6 +1,5 @@
 require 'rubygems'
 require 'sinatra'
-require 'sinatra/reloader'
 require 'haml'
 require 'mongo'
 require 'json'
@@ -14,8 +13,7 @@ use Rack::Session::Pool, :expire_after => 2592000
 # MONGO SETUP
 uri = URI.parse(ENV['MONGOHQ_URL'])
 db_name = uri.path.gsub(/^\//, '')
-DB = Mongo::Connection.new(uri.host,uri.port)
-                      .db(db_name)
+DB = Mongo::Connection.new(uri.host,uri.port).db(db_name)
 DB.authenticate(uri.user,uri.password)
 LISTS = DB.collection('lists')
 TODOS = DB.collection('todos')
