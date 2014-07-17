@@ -15,4 +15,4 @@ function loadKeywordList(){
   $('#keywords h4').on('click', function(){
     $('#keyword_list').toggleClass('display-me')
   })
-}
+};

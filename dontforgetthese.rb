@@ -53,11 +53,12 @@ TODOS = DB.collection('todos')
     puts json
     description = json['description']
     done = json['done']
-    TODOS.update({ :_id => session[:list_id] },
+    note_id = to_bson_id(json['_id'])
+    TODOS.update({ :_id => note_id },
           { '$set' =>
             {description: description, done: done}
           }
-    );
+    ).to_json;
   end
 
   delete '/api/todos/:id' do
@@ -71,7 +72,6 @@ TODOS = DB.collection('todos')
 
 
 # ADDITIONAL METHODS
-
 def to_bson_id(id)
    BSON::ObjectId.from_string(id)
 end

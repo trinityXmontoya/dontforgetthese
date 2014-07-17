@@ -37,7 +37,7 @@
   #completed-todos
 
 %script#todo-template{ type: :'text/template'}
-  <%= description %>
+  %span.description <%= description %>
   <%= !done ? "<i class='fa fa-check todo-check'></i>" : '' %>
   %span.todo-destroy.todo-options
     %i.fa.fa-times

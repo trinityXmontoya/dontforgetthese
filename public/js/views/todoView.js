@@ -29,7 +29,13 @@ var TodoView = Backbone.View.extend({
   },
 
   editTodo: function(){
-
+    // span = this.$el.find($('.edit-todo'));
+    // console.log(span)
+    // this.$el.attr
+    $('.description').attr('contentEditable',true)
+    // var description = ;
+    // var complete = ;
+    // this.model.set({description: description, done: complete})
   },
 
   remove: function(){
