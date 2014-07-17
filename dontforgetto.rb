@@ -1,6 +1,3 @@
-# SESSIONS
-use Rack::Session::Pool, :expire_after => 2592000
-
 # GEMS
 require 'rubygems'
 require 'sinatra'
@@ -9,10 +6,21 @@ require 'haml'
 require 'mongo'
 require 'json'
 require 'pry'
+require 'rack'
+
+# SESSIONS
+use Rack::Session::Pool, :expire_after => 2592000
 
 # MONGO SETUP
-DB = Mongo::Connection.new.db("todo_app", :pool_size => 5,
-  :timeout => 5)
+MONGO_URI = 'mongodb://nahsonchilll:college73@kahana.mongohq.com:10064/app27517578'
+# MONGO SETUP
+# DB = Mongo::Connection.new.db("todo_app", :pool_size => 5,
+#   :timeout => 5)
+uri = URI.parse(MONGO_URI)
+db_name = uri.path.gsub(/^\//, '')
+DB = Mongo::Connection.new(uri.host,uri.port)
+                      .db(db_name)
+DB.authenticate(uri.user,uri.password)
 LISTS = DB.collection('lists')
 TODOS = DB.collection('todos')
 
