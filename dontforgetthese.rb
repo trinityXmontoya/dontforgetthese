@@ -1,63 +1,89 @@
+# SESSIONS
+use Rack::Session::Pool, :expire_after => 2592000
+
+# GEMS
 require 'rubygems'
 require 'sinatra'
 require 'sinatra/reloader'
 require 'haml'
 require 'mongo'
 require 'json'
+require 'pry'
 
+# MONGO SETUP
 DB = Mongo::Connection.new.db("todo_app", :pool_size => 5,
   :timeout => 5)
-todos = DB.collection('todos')
+TODOS = DB.collection('todos')
 
+# ROUTES
   get '/' do
-    "Welcome to dontforgetto"
-    haml :layout
+    haml :welcome
+  end
+
+  get '/list' do
+    redirect "/list/#{generate_rand_id}"
+  end
+
+  get '/list/*:id' do
+    session[:list_id] = params[:id]
+    haml :list
   end
 
   get '/api/todos' do
-    todos.find.to_a.map{|t| from_bson_id(t)}.to_json
+    list_id = session[:list_id].to_i
+    TODOS.find(_id: list_id)
+          .to_a[0]["notes"]
+          .map{|n| n}
+          .to_json
   end
 
   post '/api/todos' do
+    list_id = session[:list_id].to_i
     new_todo = JSON.parse(request.body.read)
-    todos.insert(new_todo)
+    TODOS.update({ _id: list_id },
+          {"$push"=>
+            {notes:
+              new_todo }}).to_json
   end
 
   put '/api/todos/:id' do
+    list_id = session[:list_id].to_i
     json = JSON.parse(request.body.read)
     description = json['description']
     done = json['done']
-    todos.update({ :_id => to_bson_id(params[:id]) }, { '$set' => {description: description, done: done} }
+    query =
+    TODOS.update({ :_id => list_id },
+          { '$set' => {description: description, done: done} }
     );
   end
 
   delete '/api/todos/:id' do
-    puts "HERE ARE PARAMS to bson"
-    puts to_bson_id(params[:id])
-    todos.remove('_id' => to_bson_id(params[:id]))
+    list_id = session[:list_id].to_i
+    TODOS.update({_id: list_id},
+          {"$pull"=> {
+            notes:{
+              id: params[:id].to_i}}}).to_json
   end
 
-  def to_bson_id(id)
-    BSON::ObjectId.from_string(id)
-  end
 
-  def from_bson_id(obj)
-    obj.merge({'_id' => obj['_id'].to_s})
-  end
+# ADDITIONAL METHODS
+def generate_rand_id
+  id = SecureRandom.urlsafe_base64(23)
+end
 
-  def keyword_list
-    [
-    "anchor","ambulance","android","apple","automobile","bell","bitcoin","bomb","book","briefcase","bug","cab","calendar","camera","car","child","cloud","coffee","cutlery","dollar","dropbox","drupal","envelope","facebook","fire-extinguisher","gear","gift","git","github","google","graduation-cap","heart","headphones","home","instagram","jsfiddle","laptop","list","microphone","minus","money","music","pencil","phone","pinterest","plane","plus","question","reddit","rocket","scissors","search","spoon","star","suitcase","taxi","ticket","tree","trophy","truck","twitter","unlock","wheelchair","youtube"
-    ]
-  end
+def keyword_list
+  [
+  "anchor","ambulance","android","apple","automobile","bell","bitcoin","bomb","book","briefcase","bug","cab","calendar","camera","car","child","cloud","coffee","cutlery","dollar","dropbox","drupal","envelope","facebook","fire-extinguisher","gear","gift","git","github","google","graduation-cap","heart","headphones","home","instagram","jsfiddle","laptop","list","microphone","minus","money","music","pencil","phone","pinterest","plane","plus","question","reddit","rocket","scissors","search","spoon","star","suitcase","taxi","ticket","tree","trophy","truck","twitter","unlock","wheelchair","youtube"
+  ]
+end
 
-  def filter_for_icons(string)
-    result = ""
-    string.split.each do |word|
-      if keyword_list.include? word
-        word.gsub! word,"<i class='fa fa-" + word + "'></i>"
-      end
-      result += " #{word}"
+def filter_for_icons(string)
+  result = ""
+  string.split.each do |word|
+    if keyword_list.include? word
+      word.gsub! word,"<i class='fa fa-" + word + "'></i>"
     end
-    return result
+    result += " #{word}"
   end
+  return result
+end

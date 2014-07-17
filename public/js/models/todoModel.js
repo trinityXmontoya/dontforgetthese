@@ -1,5 +1,5 @@
 var Todo = Backbone.Model.extend({
-  idAttribute: '_id',
+  idAttribute: 'id',
   toggleComplete: function(){
     this.save({done: !this.get('done')});
   }
