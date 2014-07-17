@@ -1,0 +1,9 @@
+# GEMS
+require 'rubygems'
+require 'sinatra'
+require 'sinatra/reloader'
+require 'haml'
+require 'mongo'
+require 'json'
+require 'pry'
+require 'rack'

@@ -1,13 +1,3 @@
-# GEMS
-require 'rubygems'
-require 'sinatra'
-require 'sinatra/reloader'
-require 'haml'
-require 'mongo'
-require 'json'
-require 'pry'
-require 'rack'
-
 # SESSIONS
 use Rack::Session::Pool, :expire_after => 2592000
 
