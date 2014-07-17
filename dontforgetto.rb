@@ -11,13 +11,15 @@ require 'rack'
 use Rack::Session::Pool, :expire_after => 2592000
 
 # MONGO SETUP
-DB = Mongo::Connection.new.db("todo_app", :pool_size => 5,
-  :timeout => 5)
+# LOCAL
+# DB = Mongo::Connection.new.db("todo_app", :pool_size => 5,
+#   :timeout => 5)
 
 # HEROKU SETUP
-# db_name = uri.path.gsub(/^\//, '')
-# DB = Mongo::Connection.new(uri.host,uri.port).db(db_name)
-# DB.authenticate(uri.user,uri.password)
+uri = URI.parse(ENV['MONGOHQ_URL'])
+db_name = uri.path.gsub(/^\//, '')
+DB = Mongo::Connection.new(uri.host,uri.port).db(db_name)
+DB.authenticate(uri.user,uri.password)
 
 # LOCAL SETUP
 
