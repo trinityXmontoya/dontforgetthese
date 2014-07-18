@@ -3,7 +3,6 @@ $(document).ready(function(){
   loadBackboneVars();
   loadKeywordList();
   shareList();
-  modal();
 });
 
 function loadBackboneVars(){
