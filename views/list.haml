@@ -15,22 +15,10 @@
 %link{ rel: :'stylesheet', href: :'//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css'}
 %link{ rel: :'stylesheet', href: :'../css/style.css' }
 
-/ FBOOK BUTTON
-:javascript
-  (function(a, b, id) {
-    var js, fjs = a.getElementsByTagName(s)[0];
-    if (a.getElementById(id)) return;
-    js = d.createElement(b); js.id = id;
-    js.src = "//connect.facebook.net/es_LA/sdk.js#xfbml=1&appId=274400686074344&version=v2.0";
-    fjs.parentNode.insertBefore(js, fjs);
-  }(document, 'script', 'facebook-jssdk'));
-
-/ TWITTER BUTTON
-:javascript
-  !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
-
-
-
+%div#modal.hide-me
+  #share-options.hide-me
+    %div.fb-share-button{ "data-href"=>"http://dontforgetto.herokuapp.com"}
+    %a{ href:"https://twitter.com/share", class: "twitter-share-button", "data-text" => "DontForgetThe.se (now i won't!)", "data-count"=>"none"}
 %div#fb-root
 %header
   %a{ href: '/', title: 'DontForgetTo!'}
@@ -50,10 +38,8 @@
       =keyword
       %br
 
+
 #container
-  #share-options.hide-me
-    %div.fb-share-button{"data-href" =>"/list/"}
-    %a{ href:"https://twitter.com/share", class: "twitter-share-button", "data-text" => "DontForgetThe.se (i won't now!)"}Tweet
   - if params[:id] == 'demo'
     %h4.list-title Demo App
   - else
