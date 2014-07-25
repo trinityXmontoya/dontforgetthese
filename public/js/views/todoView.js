@@ -33,9 +33,12 @@ var TodoView = Backbone.View.extend({
     var that = this;
     span = this.$el.find($('.description'));
     span.attr('contentEditable',true);
+    span.css('opacity','.4')
     span.on('focusout', function(){
       span.attr('contentEditable',false)
+      span.css('opacity','1')
     });
+
     span.on('keydown', function(e){
       var code = e.keyCode || e.which;
       var description = span.text();
