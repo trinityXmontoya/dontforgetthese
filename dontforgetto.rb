@@ -5,7 +5,6 @@ require 'mongo'
 require 'json'
 require 'pry'
 require 'rack'
-require 'sinatra/reloader'
 
 
 # SESSIONS
