@@ -32,7 +32,7 @@
 #keywords
   %h4 Complete Keyword List
   #keyword_list.hide-me
-    %p Use any of these words get the matching icon!
+    %p Use any of these words to get the matching icon!
     - keyword_list.each do |keyword|
       = filter_for_icons(keyword)
       =keyword
@@ -41,9 +41,10 @@
 
 #container
   - if params[:id] == 'demo'
-    %h4.list-title Demo App
+    %h4.list-title Demo List
   - else
-    %h4.list-title Not Demo App
+    %h4.list-title.user-list
+      = params[:list_title] || "Click to change list title!"
   #new-todo
     %input{ type: 'text', id: 'new-todo-description', name: 'description', placeholder: "ex: Buy all the bacon"}
     %i.fa.fa-plus.todo-plus
@@ -60,4 +61,3 @@
     %i.fa.fa-times
   %span.todo-edit.todo-options
     %i.fa.fa-edit
-

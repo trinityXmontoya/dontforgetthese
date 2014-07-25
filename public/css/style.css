@@ -1,5 +1,20 @@
 /*GLOBAL*/
 
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+body {
+  font-family: Helvetica;
+  margin: 0;
+  background-image: url('../images/congruent_pentagon.png');
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
 .display-me {
   display: block !important;
 }
@@ -8,15 +23,48 @@
   display: none;
 }
 
-body {
-  font-family: Helvetica;
-  margin: 0;
-  background-image: url('../images/congruent_pentagon.png');
+
+/*HOME PAGE*/
+.home-button{
+  background-color: rgb(243, 255, 53);
+  height: 50px;
+  padding: 15px;
+  margin: 20px auto;
+  width: 300px;
+  border-radius: 20;
+  text-align: center;
+  font-size: 15px
 }
 
-a {
-  text-decoration: none
+a > .home-button {
+  text-transform: uppercase;
+  color: black
 }
+
+.home-intro {
+  width: 600px;
+  height: 50px;
+  padding: 10px;
+  margin: 110px auto 60px auto;
+  text-align: center;
+  font-size: 28px;
+}
+
+.home-addl-info {
+  font-size: 14px;
+  width: 600px;
+  height: 70px;
+  padding: 20px;
+  text-align: center;
+  margin: 40px auto 0 auto;
+  line-height: 20px;
+  color: rgba(0,0,0,.6);
+}
+
+.home-addl-info > a {
+  color: rgba(0,0,0,.6);
+}
+
 
 /*CONTAINER*/
 header {
@@ -36,6 +84,7 @@ header a {
   font-size: 15px;
   float:right;
   padding: 10px;
+  margin-right: 20px;
   border-radius: 100
 }
 
@@ -59,8 +108,14 @@ header a {
 #keywords {
   float: left;
   width: 200px;
-  padding: 10px;
+  padding: 10px 10px 0 10px;
 }
+
+#keyword_list {
+  height: 350px;
+  overflow: scroll;
+}
+
 
 #keywords h4 {
   background-color: white;

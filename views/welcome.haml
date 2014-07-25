@@ -1,4 +1,25 @@
-%h1 Welcome!
-%p Here's how everything works:
-%a{ href: '/list/demo', title: "Demo"} Demo
-%a{ href: '/list', title: "Make your own" } Make your own!
+%link{ rel: :'stylesheet', href: :'../css/style.css' }
+%link{ rel: :'stylesheet', href: :'//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css'}
+
+%header
+  %a{ href: '/', title: 'DontForgetTo!'}
+    %i.fa.fa-ellipsis-h
+    DontForgetTo
+%div.home-intro
+  A fun and intuitive to-do list with extensive icon support.
+%a{ href: '/list/demo', title: "Demo"}
+  %div.home-button
+    %h2 Demo
+%a{ href: '/list', title: "Make your own" }
+  %div.home-button
+    %h2 Make your own!
+
+%div.home-addl-info
+  No need to login, just click
+  %a{ href: "/list" } <em>make your own</em>
+  to generate a completely unique url!
+  %br
+  Then you can share it on <i class="fa fa-facebook"></i>, <i class="fa fa-twitter"></i>, or by <i class="fa fa-envelope"></i>.
+  %br
+  %br
+  %a{href: 'http://www.trinitymontoya.com'} © Trinity Montoya 2014
