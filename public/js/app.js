@@ -3,6 +3,7 @@ $(document).ready(function(){
   loadBackboneVars();
   loadKeywordList();
   shareList();
+  changeListTitle();
 });
 
 function loadBackboneVars(){
@@ -40,3 +41,34 @@ var fbookButton = function(){
   fjs.parentNode.insertBefore(js, fjs);}(document, 'script', 'facebook-jssdk'));
 }
 
+
+var changeListTitle = function(){
+  listTitle = $('.user-list');
+
+  listTitle.on('click', function(){
+    $(this).attr('contentEditable',true);
+    $(this).css('display','inline-block');
+  });
+
+  listTitle.on('keypress', function(e){
+    if (e.which == 13){
+      e.preventDefault();
+      listTitle.blur();
+    }
+  });
+
+  listTitle.on('focusout', function(){
+      postNewTitle();
+  });
+
+  var postNewTitle = function(){
+    $.ajax({
+      url: '/api/lists/new_title',
+      method: 'post',
+      dataType: 'json',
+      data: {title: listTitle.text()}
+    }).done( function(data){
+      console.log("Title succesfully changed to" + listTitle.text());
+    });
+  };
+};

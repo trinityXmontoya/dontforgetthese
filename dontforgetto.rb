@@ -5,6 +5,7 @@ require 'mongo'
 require 'json'
 require 'pry'
 require 'rack'
+require 'sinatra/reloader'
 
 
 # SESSIONS
@@ -27,6 +28,8 @@ LISTS = DB.collection('lists')
 TODOS = DB.collection('todos')
 
 # ROUTES
+
+  # FRONT END
   get '/' do
     haml :welcome
   end
@@ -37,16 +40,19 @@ TODOS = DB.collection('todos')
 
   get '/list/*:id' do
     session[:list_id] = params[:id]
+    params[:list_title] = get_list_title(params[:id])
     haml :list
   end
 
+  # API
   get '/api/todos' do
-    LISTS.find(_id: session[:list_id])
-          .to_a[0]["notes"]
-          .map do |note_id|
-            from_bson_id(TODOS.find(_id: note_id).to_a[0])
-          end
-          .to_json
+    todos = LISTS.find(_id: session[:list_id])
+    if todos
+      todos.to_a[0]["notes"].map do |note_id|
+        from_bson_id(TODOS.find(_id: note_id).to_a[0])
+      end
+      .to_json
+    end
   end
 
   post '/api/todos' do
@@ -55,6 +61,15 @@ TODOS = DB.collection('todos')
     LISTS.update({ _id: session[:list_id] },
           {"$push"=>
             {notes: id }}, upsert: true).to_json
+  end
+
+
+  post '/api/lists/new_title' do
+    title = params[:title].strip
+    list_id = session[:list_id]
+    LISTS.update({_id: list_id},
+                { '$set' => {title: title}},
+                upsert: true).to_json
   end
 
   put '/api/todos/:id' do
@@ -92,6 +107,11 @@ end
 
 def from_bson_id(obj)
    obj.merge({'_id' => obj['_id'].to_s})
+end
+
+def get_list_title(list_id)
+  list = LISTS.find({_id: list_id},fields: "title").to_a[0]
+  return list["title"] if list
 end
 
 def generate_rand_id
