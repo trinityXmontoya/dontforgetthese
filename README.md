@@ -1,6 +1,7 @@
 #Dont Forget To
 
 Sinatra, Backbone, Mongo, and HAML powered todo-list with word-icon substitution.
+
 My first Backbone, Mongo, and HAML project.
 ## Installation
 
