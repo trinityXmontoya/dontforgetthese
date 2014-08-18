@@ -73,8 +73,6 @@ TODOS = DB.collection('todos')
 
   put '/api/todos/:id' do
     json = JSON.parse(request.body.read)
-    puts "JSON"
-    puts json
     description = json['description']
     done = json['done']
     note_id = to_bson_id(json['_id'])
