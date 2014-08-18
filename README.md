@@ -26,4 +26,5 @@ If running locally:
     ```
     
   4. Run `server.rb`
+
 The app will now be running on [localhost:4567](http://localhost:4567/)
